@@ -4,141 +4,126 @@ import Model.Chamber;
 import Util.JPAUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ChamberDao {
-    EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
+public class ChamberDao extends Chamber {
     Scanner t = new Scanner(System.in);
+    EntityManager manager;
 
-    public void createChamber() {
-        Chamber c = new Chamber();
-        System.out.println("Introduzca el numero de la cámara");
-        c.setId(t.nextInt());
-        System.out.println("Introduzca la temperatura que soporta la cámara");
-        c.setMaxtemp(t.nextInt());
-        System.out.println("Introduzca el sensor de la cámara");
-        c.setSensor1(t.nextInt());
-        System.out.println("Introduzca otro sensor de la cámara");
-        c.setSensor2(t.nextInt());
-        System.out.println("Puerta cerrada=0, Puerta abierta= 1");
-        c.setPuerta(t.nextBoolean());
-        System.out.println("Motor apagado=0, Motor encendido=1");
-        c.setMotor(t.nextBoolean());
-        entity.getTransaction().begin();
-        entity.persist(c);
-        entity.getTransaction().commit();
-        System.out.println("Cámara creada");
+    public ChamberDao(int id, int maxtemp, int sensor1, int sensor2, boolean puerta, boolean motor, Scanner t) {
+        super(id, maxtemp, sensor1, sensor2, puerta, motor);
+
     }
 
-    public void createChamber(int id, int tem_max, int s1, int s2, boolean puerta, boolean motor) {
-        Chamber c = new Chamber(id, tem_max, s1, s2, puerta, motor);
-        entity.getTransaction().begin();
-        entity.persist(c);
-        entity.getTransaction().commit();
-        System.out.println("Cámara creada");
-    }
-    public void updateChamber() {
-        System.out.println("Indica que nº de cámara quieres modificar");
-        int id = t.nextInt();
-
-        Chamber c = entity.find(Chamber.class, id);
-
-        if (c != null) {
-
-            System.out.println("Cámara nº +" + c.getId() + " encontrada");
-            System.out.println("Introduzca la temperatura que soporta la cámara");
-            c.setMaxtemp(t.nextInt());
-            System.out.println("Introduzca el sensor de la cámara");
-            c.setSensor1(t.nextInt());
-            System.out.println("Introduzca otro sensor de la cámara");
-            c.setSensor2(t.nextInt());
-            System.out.println("Puerta cerrada=0, Puerta abierta= 1");
-            c.setPuerta(t.nextBoolean());
-            System.out.println("Motor apagado=0, Motor encendido=1");
-            c.setMotor(t.nextBoolean());
-            entity.getTransaction().begin();
-            entity.merge(c);
-            entity.getTransaction().commit();
-            System.out.println("Cámara actualizada");
-
-        }
+    public ChamberDao(int id, int maxtemp, int sensor1, int sensor2) {
+        super(id, maxtemp, sensor1, sensor2);
     }
 
-        public void updateChamber(int id, int max_t, int s1, int s2, boolean puerta, boolean motor) {
-
-            Chamber c = entity.find(Chamber.class, id);
-
+    public boolean createChamber(int id) {
+        boolean result = false;
+        EntityManager manager = null;
+        try {
+            Chamber c = new Chamber(id, this.getMaxtemp(), this.getSensor1(), this.getSensor2());
+            manager = JPAUtil.getManager();
+            manager.getTransaction().begin();
             if (c != null) {
-
-                System.out.println("Cámara nº +" + c.getId() + " encontrada");
-                c.setMaxtemp(max_t);
-                c.setSensor1(s1);
-                c.setSensor2(s2);
-                c.setPuerta(puerta);
-                c.setMotor(motor);
-                entity.getTransaction().begin();
-                entity.merge(c);
-                entity.getTransaction().commit();
-                System.out.println("Cámara actualizada");
-
+                manager.persist(c);
+            }
+            manager.getTransaction().commit();
+            manager.close();
+        } catch (PersistenceException ex) {
+            if (manager != null) {
+                manager.close();
             }
         }
-
-    public Chamber findById(int id) {
-
-        Chamber chamber = entity.find(Chamber.class, id);
-
-        System.out.println("Cámara nº "+chamber.getId()+" encontrada" );
-        return chamber;
+        return result;
     }
 
-    public List<Chamber> getAllChamber() {
-        List<Chamber> chambers = new ArrayList<>();
-        Query query = entity.createQuery("SELECT c FROM Chamber c");
-        chambers = query.getResultList();
-        for (Chamber c : chambers) {
-            System.out.println(c);
-        }
-        return chambers;
 
+        public boolean  updateChamber (){
+            boolean result = false;
+            EntityManager manager = null;
+            try {
+                Chamber chamber = new Chamber(this.getId(),this.getMaxtemp(), this.getSensor1(), this.getSensor2());
+                chamber.setId((this.getId()));
+                manager = JPAUtil.getManager();
+                manager.getTransaction().begin();
+                if (chamber != null) {
+                    manager.merge(chamber);
+                    result = true;
+                }
 
-    }
+                manager.getTransaction().commit();
+                manager.close();
+            } catch (PersistenceException ex) {
+                if (manager != null) {
+                    manager.close();
+                }
+            }
 
-    public void removeChamber (int id){
-        Chamber c = new Chamber();
-
-        c = entity.find(Chamber.class, id);
-        if (c != null) {
-            entity.getTransaction().begin();
-            entity.remove(c);
-            entity.getTransaction().commit();
-            System.out.println("Cámara eliminada...");
-        } else {
-            System.out.println("Producto no encontrado...");
+            return result;
         }
 
-
-    }
-    public void removeChamber (){
-        System.out.println("Introduce la id de la cámara que se desea borrar");
-        int id=t.nextInt();
-        Chamber c = new Chamber();
-
-        c = entity.find(Chamber.class, id);
-        if (c != null) {
-            entity.getTransaction().begin();
-            entity.remove(c);
-            entity.getTransaction().commit();
-            System.out.println("Cámara eliminada...");
-        } else {
-            System.out.println("Producto no encontrado...");
+        public Chamber findById (int id){
+            EntityManager manager = null;
+            Chamber chamber = new Chamber();
+            try {
+                manager = JPAUtil.getManager();
+                chamber = manager.find(Chamber.class, id);
+                manager.close();
+            } catch (PersistenceException ex) {
+                if (manager != null) {
+                    manager.close();
+                }
+            }
+            return chamber;
         }
 
+        public static List<Chamber> getAllChamber () {
+            List<Chamber> chambers = new ArrayList<>();
+            EntityManager manager = null;
+            try {
+                manager = JPAUtil.getManager();
+                chambers = manager.createQuery("FROM Chamber").getResultList();
+                manager.clear();
+            } catch (PersistenceException ex) {
+                if (manager != null) {
+                    manager.close();
+                }
+            }
+            return chambers;
+        }
 
+        public boolean removeChamber ( int id){
+            boolean result = false;
+            EntityManager manager = null;
+            try {
+                Chamber c = new Chamber();
+                manager = JPAUtil.getManager();
+                manager.getTransaction().begin();
+
+                if (c != null) {
+                    c = manager.find(Chamber.class, id);
+                    manager.remove(c);
+                    result = true;
+                }
+                manager.getTransaction().commit();
+                manager.close();
+            } catch (PersistenceException ex) {
+                if (manager != null) {
+                    manager.close();
+                }
+            }
+
+            return result;
+        }
     }
 
 
-}
+
+
+
+

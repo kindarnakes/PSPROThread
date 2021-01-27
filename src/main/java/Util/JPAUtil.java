@@ -1,22 +1,25 @@
 package Util;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class JPAUtil {
 
-    private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
-    private static EntityManagerFactory factory;
+        private static final String PERSISTENCE_UNIT = "MariaDB";
+        private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+        private static EntityManager manager = null;
 
-    public static EntityManagerFactory getEntityManagerFactory() {
-        if (factory==null) {
-            factory= Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        public static EntityManager getManager() {
+            try {
+                if (manager == null || !manager.isOpen()) {
+                    manager = emf.createEntityManager();
+                }
+            }catch (IllegalStateException ex){
+                emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+            }
+            return manager;
         }
-        return factory;
+
     }
-    public static void shutdown() {
-        if (factory!=null) {
-            factory.close();
-        }
-    }
-}
+

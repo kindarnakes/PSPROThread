@@ -25,6 +25,8 @@ public class Chamber {
 
 
     public Chamber() {
+        this.puerta=false;
+        this.motor=false;
     }
 
     public Chamber(int id, int maxtemp, int sensor1, int sensor2, boolean puerta, boolean motor) {
@@ -34,6 +36,13 @@ public class Chamber {
         this.sensor2 = sensor2;
         this.puerta = puerta;
         this.motor = motor;
+    }
+
+    public Chamber(int id, int maxtemp, int sensor1, int sensor2) {
+        this.id = id;
+        this.maxtemp = maxtemp;
+        this.sensor1 = sensor1;
+        this.sensor2 = sensor2;
     }
 
     public int getId() {
