@@ -25,7 +25,7 @@ public class LogController extends Thread{
                     "Número de cámara: " + c.getId() +  "\tDía: " + LocalDate.now() +"\tHora: " + LocalTime.now().toString()+
                     "\nTemperatura máxima permitida: " + c.getMaxtemp() +
                     "\nValor del sensor de temperatura: 1: " + c.getSensor1() + "ºC 2: " + c.getSensor2() + "ºC" +
-                    "\nEstado del motor: " + (c.isMotor()?"encencido": "apagado") +
+                    "\nEstado del motor: " + (c.isMotor()?"encendido": "apagado") +
                     "\nEstado de la puerta: " + (c.isPuerta()?"abierta":"cerrada")+
                     "\n----------------------------------------------------------------------------\n");
             saved = true;
