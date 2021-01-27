@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class Chamber {
 
-    public int id;
-    public int maxtemp;
-    public int sensor1;
-    public int sensor2;
-    public boolean puerta;
-    public boolean motor;
+    private int id;
+    private int maxtemp;
+    private int sensor1;
+    private int sensor2;
+    private boolean puerta;
+    private boolean motor;
 
 
     public Chamber() {
