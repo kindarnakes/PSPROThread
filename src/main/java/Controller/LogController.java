@@ -44,7 +44,6 @@ public class LogController extends Thread{
         while(this.run){
             try {
                 Thread.sleep(30000);
-                System.out.println("Guardamos");
                 Chamber c = new Chamber(1, 30, ThreadLocalRandom.current().nextInt(-20,40), ThreadLocalRandom.current().nextInt(-20,40),
                         ThreadLocalRandom.current().nextBoolean(), ThreadLocalRandom.current().nextBoolean());
                 this.saveLog(c);
