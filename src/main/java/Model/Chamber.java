@@ -1,14 +1,26 @@
 package Model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
+
+@Entity(name = "Chamber")
 public class Chamber {
 
+    @Id
+    @Column(name = "id")
     public int id;
+    @Column(name = "maxtemp")
     public int maxtemp;
+    @Column(name = "sensor1")
     public int sensor1;
+    @Column(name = "sensor2")
     public int sensor2;
+    @Column(name = "puerta")
     public boolean puerta;
+    @Column(name = "motor")
     public boolean motor;
 
 
