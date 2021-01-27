@@ -1,18 +1,33 @@
 package Controller;
 
+import Dao.ChamberDao;
 import Model.Chamber;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class LogController extends Thread{
 
     private boolean run;
     private static final String LOGFILE = "registro.log";
+    private static final LogController LOG = new LogController();
 
-    public boolean saveLog(Chamber c){
+    private LogController() {
+    }
+
+    public static LogController getLOG() {
+        return LOG;
+    }
+
+    public void shutdown(){
+        run = false;
+        this.interrupt();
+    }
+
+    public synchronized boolean saveLog(Chamber c){
         Boolean saved = false;
 
         try(
@@ -37,19 +52,45 @@ public class LogController extends Thread{
         return saved;
     }
 
+    public synchronized Optional<String> loadLog(){
+        String log = null;
+
+        try(
+                FileReader in = new FileReader(LOGFILE);
+                BufferedReader br = new BufferedReader(in);
+        ){
+            String file = "";
+            while(br.ready()) {
+                file += br.readLine() + "\n";
+            }
+            log = file;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.ofNullable(log);
+    }
+
     @Override
     public void run() {
         super.run();
+        ChamberDao.getAllChamber().forEach(c ->{
+            this.saveLog(c);
+        });
         this.run = true;
         while(this.run){
             try {
                 Thread.sleep(30000);
-                Chamber c = new Chamber(1, 30, ThreadLocalRandom.current().nextInt(-20,40), ThreadLocalRandom.current().nextInt(-20,40),
-                        ThreadLocalRandom.current().nextBoolean(), ThreadLocalRandom.current().nextBoolean());
-                this.saveLog(c);
+                ChamberDao.getAllChamber().forEach(c ->{
+                    this.saveLog(c);
+                });
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                this.run = false;
+                if(this.run) {
+                    e.printStackTrace();
+                    this.run = false;
+                }
             }
         }
 

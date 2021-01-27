@@ -1,6 +1,9 @@
 package GUI;
 
+import Controller.LogController;
+
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class GUI {
@@ -40,10 +43,13 @@ public class GUI {
                         //Llama al método correspondiente.
                         break;
                     case 4:
-                        //Llama al método correspondiente.
+                        LogController log = LogController.getLOG();
+                        Optional<String> logtext = log.loadLog();
+                        System.out.println(logtext.isPresent()?logtext.get():"No hay log");
                         break;
                     case 5:
                         salir = true;
+                        LogController.getLOG().shutdown();
                         break;
                     default:
                         System.out.println("Indique un dígito válido entre 1-5");
