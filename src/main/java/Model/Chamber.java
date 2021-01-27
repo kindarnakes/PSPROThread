@@ -11,17 +11,17 @@ public class Chamber {
 
     @Id
     @Column(name = "id")
-    public int id;
+    private int id;
     @Column(name = "maxtemp")
-    public int maxtemp;
+    private int maxtemp;
     @Column(name = "sensor1")
-    public int sensor1;
+    private int sensor1;
     @Column(name = "sensor2")
-    public int sensor2;
+    private int sensor2;
     @Column(name = "puerta")
-    public boolean puerta;
+    private boolean puerta;
     @Column(name = "motor")
-    public boolean motor;
+    private boolean motor;
 
 
     public Chamber() {
