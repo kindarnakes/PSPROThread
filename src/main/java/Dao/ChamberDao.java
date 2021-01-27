@@ -87,7 +87,7 @@ public class ChamberDao extends Chamber {
             EntityManager manager = null;
             try {
                 manager = JPAUtil.getManager();
-                chambers = manager.createQuery("FROM Chamber").getResultList();
+                chambers = manager.createQuery("FROM camaras").getResultList();
                 manager.clear();
             } catch (PersistenceException ex) {
                 if (manager != null) {

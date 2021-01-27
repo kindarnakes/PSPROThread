@@ -6,17 +6,17 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 
-@Entity(name = "Chamber")
+@Entity(name = "camaras")
 public class Chamber {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "codigoCamara")
     private int id;
-    @Column(name = "maxtemp")
+    @Column(name = "tempMaxima")
     private int maxtemp;
-    @Column(name = "sensor1")
+    @Column(name = "valorS1")
     private int sensor1;
-    @Column(name = "sensor2")
+    @Column(name = "valorS2")
     private int sensor2;
     @Column(name = "puerta")
     private boolean puerta;
