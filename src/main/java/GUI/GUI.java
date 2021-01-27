@@ -1,6 +1,8 @@
 package GUI;
 
 import Controller.LogController;
+import Controller.LogViewer;
+import Model.Log;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -43,19 +45,19 @@ public class GUI {
                         //Llama al método correspondiente.
                         break;
                     case 4:
-                        LogController log = LogController.getLOG();
-                        Optional<String> logtext = log.loadLog();
-                        System.out.println(logtext.isPresent()?logtext.get():"No hay log");
+                        Log log = Log.getINSTANCE();
+                        LogViewer logViewer = new LogViewer(log);
+                        logViewer.start();
+                        logViewer.join();
                         break;
                     case 5:
                         salir = true;
-                        LogController.getLOG().shutdown();
                         break;
                     default:
                         System.out.println("Indique un dígito válido entre 1-5");
                 }
 
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException | InterruptedException e) {
                 System.out.println("¡Cuidado! Solo puedes insertar números.");
                 sc.next();
             }
