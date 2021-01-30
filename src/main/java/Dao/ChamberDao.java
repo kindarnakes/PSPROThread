@@ -10,46 +10,56 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ChamberDao extends Chamber {
-    Scanner t = new Scanner(System.in);
-    EntityManager manager;
+    private EntityManager manager;
+    private JPAUtil util;
 
-    public ChamberDao(int id, int maxtemp, int sensor1, int sensor2, boolean puerta, boolean motor, Scanner t) {
+    public ChamberDao(int id, int maxtemp, int sensor1, int sensor2, boolean puerta, boolean motor) {
         super(id, maxtemp, sensor1, sensor2, puerta, motor);
+        util = JPAUtil.getINSTANCE();
 
     }
 
     public ChamberDao(int id, int maxtemp, int sensor1, int sensor2) {
         super(id, maxtemp, sensor1, sensor2);
+        util = JPAUtil.getINSTANCE();
     }
 
-    public boolean createChamber(int id) {
+    public ChamberDao(Chamber chamber){
+        super(chamber.getId(), chamber.getMaxtemp(), chamber.getSensor1(), chamber.getSensor2(), chamber.isPuerta(), chamber.isMotor());
+        util = JPAUtil.getINSTANCE();
+    }
+
+    public ChamberDao() {
+        util = JPAUtil.getINSTANCE();
+    }
+
+    public synchronized boolean createChamber(int id) {
         boolean result = false;
-        EntityManager manager = null;
         try {
             Chamber c = new Chamber(id, this.getMaxtemp(), this.getSensor1(), this.getSensor2());
-            manager = JPAUtil.getManager();
+            manager = util.getManager();
             manager.getTransaction().begin();
             if (c != null) {
                 manager.persist(c);
             }
             manager.getTransaction().commit();
-            manager.close();
+            util.close();
         } catch (PersistenceException ex) {
             if (manager != null) {
-                manager.close();
+                util.close();
             }
         }
+        notifyAll();
         return result;
     }
 
 
-        public boolean  updateChamber (){
+        public synchronized boolean  updateChamber (){
             boolean result = false;
-            EntityManager manager = null;
             try {
                 Chamber chamber = new Chamber(this.getId(),this.getMaxtemp(), this.getSensor1(), this.getSensor2());
                 chamber.setId((this.getId()));
-                manager = JPAUtil.getManager();
+                manager = util.getManager();
                 manager.getTransaction().begin();
                 if (chamber != null) {
                     manager.merge(chamber);
@@ -57,52 +67,52 @@ public class ChamberDao extends Chamber {
                 }
 
                 manager.getTransaction().commit();
-                manager.close();
+                util.close();
             } catch (PersistenceException ex) {
                 if (manager != null) {
-                    manager.close();
+                    util.close();
                 }
             }
+            notifyAll();
 
             return result;
         }
 
-        public Chamber findById (int id){
-            EntityManager manager = null;
+        public synchronized Chamber findById (int id){
             Chamber chamber = new Chamber();
             try {
-                manager = JPAUtil.getManager();
+                manager = util.getManager();
                 chamber = manager.find(Chamber.class, id);
-                manager.close();
+                util.close();
             } catch (PersistenceException ex) {
                 if (manager != null) {
-                    manager.close();
+                    util.close();
                 }
             }
+            notifyAll();
             return chamber;
         }
 
-        public static List<Chamber> getAllChamber () {
+        public synchronized List<Chamber> getAllChamber () {
             List<Chamber> chambers = new ArrayList<>();
-            EntityManager manager = null;
             try {
-                manager = JPAUtil.getManager();
+                manager = util.getManager();
                 chambers = manager.createQuery("FROM camaras").getResultList();
-                manager.clear();
+                util.close();
             } catch (PersistenceException ex) {
                 if (manager != null) {
-                    manager.close();
+                    util.close();
                 }
             }
+            notifyAll();
             return chambers;
         }
 
-        public boolean removeChamber ( int id){
+        public synchronized boolean removeChamber ( int id){
             boolean result = false;
-            EntityManager manager = null;
             try {
                 Chamber c = new Chamber();
-                manager = JPAUtil.getManager();
+                manager = util.getManager();
                 manager.getTransaction().begin();
 
                 if (c != null) {
@@ -111,13 +121,14 @@ public class ChamberDao extends Chamber {
                     result = true;
                 }
                 manager.getTransaction().commit();
-                manager.close();
+                util.close();
             } catch (PersistenceException ex) {
                 if (manager != null) {
-                    manager.close();
+                    util.close();
                 }
             }
 
+            notifyAll();
             return result;
         }
     }

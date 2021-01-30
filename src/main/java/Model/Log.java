@@ -42,6 +42,7 @@ public class Log {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notifyAll();
 
         return saved;
     }
@@ -64,6 +65,7 @@ public class Log {
             e.printStackTrace();
         }
 
+        notifyAll();
         return Optional.ofNullable(log);
     }
 

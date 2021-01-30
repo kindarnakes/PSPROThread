@@ -6,11 +6,26 @@ import javax.persistence.Persistence;
 
 public class JPAUtil {
 
+        private static JPAUtil INSTANCE = new JPAUtil();
         private static final String PERSISTENCE_UNIT = "MariaDB";
         private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-        private static EntityManager manager = null;
+        private  EntityManager manager = null;
 
-        public static EntityManager getManager() {
+    private JPAUtil() {
+    }
+
+    public static JPAUtil getINSTANCE() {
+        return INSTANCE;
+    }
+
+    public synchronized EntityManager getManager() {
+        if(manager != null && manager.isOpen()){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
             try {
                 if (manager == null || !manager.isOpen()) {
                     manager = emf.createEntityManager();
@@ -19,6 +34,11 @@ public class JPAUtil {
                 emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
             }
             return manager;
+        }
+
+        public synchronized void close(){
+            manager.close();
+            notifyAll();
         }
 
     }

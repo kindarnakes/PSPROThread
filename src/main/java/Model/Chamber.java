@@ -49,48 +49,54 @@ public class Chamber {
         return id;
     }
 
-    public void setId(int id) {
+    public synchronized void setId(int id) {
         this.id = id;
+        notifyAll();
     }
 
     public int getMaxtemp() {
         return maxtemp;
     }
 
-    public void setMaxtemp(int maxtemp) {
+    public synchronized void setMaxtemp(int maxtemp) {
         this.maxtemp = maxtemp;
+        notifyAll();
     }
 
     public int getSensor1() {
         return sensor1;
     }
 
-    public void setSensor1(int sensor1) {
+    public synchronized void setSensor1(int sensor1) {
         this.sensor1 = sensor1;
+        notifyAll();
     }
 
     public int getSensor2() {
         return sensor2;
     }
 
-    public void setSensor2(int sensor2) {
+    public synchronized void setSensor2(int sensor2) {
         this.sensor2 = sensor2;
+        notifyAll();
     }
 
     public boolean isPuerta() {
         return puerta;
     }
 
-    public void setPuerta(boolean puerta) {
+    public synchronized void setPuerta(boolean puerta) {
         this.puerta = puerta;
+        notifyAll();
     }
 
     public boolean isMotor() {
         return motor;
     }
 
-    public void setMotor(boolean motor) {
+    public synchronized void setMotor(boolean motor) {
         this.motor = motor;
+        notifyAll();
     }
 
 
