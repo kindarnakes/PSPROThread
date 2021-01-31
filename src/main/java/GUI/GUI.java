@@ -1,11 +1,13 @@
 package GUI;
 
-import Controller.LogController;
-import Controller.LogViewer;
+import Controller.ThreadAdd;
+import Controller.ThreadUpdate;
+import Dao.ChamberDao;
+import Model.Chamber;
 import Model.Log;
+import Util.JPAUtil;
 
 import java.util.InputMismatchException;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class GUI {
@@ -42,13 +44,10 @@ public class GUI {
                         //Llama al método correspondiente.
                         break;
                     case 3:
-                        //Llama al método correspondiente.
+                        opt3();
                         break;
                     case 4:
-                        Log log = Log.getINSTANCE();
-                        LogViewer logViewer = new LogViewer(log);
-                        logViewer.start();
-                        logViewer.join();
+                        opt4();
                         break;
                     case 5:
                         salir = true;
@@ -63,5 +62,24 @@ public class GUI {
             }
         }
 
+    }
+
+    private static void opt3() {
+
+        ChamberDao chamberDao = new ChamberDao(4,-15,20,18,false,false);
+        ThreadAdd add = new ThreadAdd(chamberDao);
+        ChamberDao chamberDao1 = new ChamberDao(chamberDao.findById(1));
+        ThreadUpdate up1 = new ThreadUpdate(chamberDao1);
+        ThreadUpdate up2 = new ThreadUpdate(chamberDao1);
+        add.start();
+        up1.start();
+        up2.start();
+    }
+
+    private static void opt4() throws InterruptedException {
+        Log log = Log.getINSTANCE();
+        LogViewer logViewer = new LogViewer(log);
+        logViewer.start();
+        logViewer.join();
     }
 }

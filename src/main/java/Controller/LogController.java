@@ -1,13 +1,8 @@
 package Controller;
 
 import Dao.ChamberDao;
-import Model.Chamber;
 import Model.Log;
-
-import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Optional;
+import Util.JPAUtil;
 
 public class LogController extends Thread{
 
@@ -31,14 +26,15 @@ public class LogController extends Thread{
     @Override
     public void run() {
         super.run();
-        ChamberDao.getAllChamber().forEach(c ->{
+        ChamberDao chamberDao = new ChamberDao();
+        chamberDao.getAllChamber().forEach(c ->{
             this.log.saveLog(c);
         });
         this.run = true;
         while(this.run){
             try {
                 Thread.sleep(30000);
-                ChamberDao.getAllChamber().forEach(c ->{
+                chamberDao.getAllChamber().forEach(c ->{
                     this.log.saveLog(c);
                 });
             } catch (InterruptedException e) {
