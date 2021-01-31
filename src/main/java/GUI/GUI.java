@@ -1,8 +1,11 @@
 package GUI;
 
 import Controller.ThreadAdd;
+import Controller.ThreadLectureChamber;
 import Controller.ThreadUpdate;
+import Controller.ThreadUpdateChamber;
 import Dao.ChamberDao;
+import Model.Arranque;
 import Model.Chamber;
 import Model.Log;
 import Util.JPAUtil;
@@ -17,6 +20,7 @@ public class GUI {
         Scanner sc = new Scanner(System.in);
         boolean salir = false;
         int opcion;
+
 
         while (!salir) {
 
@@ -64,6 +68,24 @@ public class GUI {
 
     }
 
+    private static void opt2() {
+
+
+        ChamberDao chamberDao = new ChamberDao(1,-30,-25,-26,false,true);
+        ThreadAdd add = new ThreadAdd(chamberDao);
+        ThreadLectureChamber lecture=new ThreadLectureChamber(chamberDao);
+        chamberDao.setSensor1(-27);
+        chamberDao.setSensor2(-27);
+        chamberDao.setPuerta(true);
+        ThreadUpdateChamber update = new ThreadUpdateChamber(chamberDao);
+        System.out.println("Cambia de datos");
+        lecture=new ThreadLectureChamber(chamberDao);
+        add.start();
+        lecture.start();
+        update.start();
+
+    }
+
     private static void opt3() {
 
         ChamberDao chamberDao = new ChamberDao(4,-15,20,18,false,false);
@@ -83,3 +105,8 @@ public class GUI {
         logViewer.join();
     }
 }
+
+
+
+
+
