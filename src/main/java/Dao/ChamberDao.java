@@ -57,7 +57,7 @@ public class ChamberDao extends Chamber {
         public synchronized boolean  updateChamber (){
             boolean result = false;
             try {
-                Chamber chamber = new Chamber(this.getId(),this.getMaxtemp(), this.getSensor1(), this.getSensor2());
+                Chamber chamber = new Chamber(this.getId(),this.getMaxtemp(), this.getSensor1(), this.getSensor2(), this.isPuerta(), this.isMotor());
                 chamber.setId((this.getId()));
                 manager = util.getManager();
                 manager.getTransaction().begin();
