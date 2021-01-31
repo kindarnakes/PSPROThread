@@ -1,9 +1,6 @@
 package GUI;
 
-import Controller.ThreadAdd;
-import Controller.ThreadLectureChamber;
-import Controller.ThreadUpdate;
-import Controller.ThreadUpdateChamber;
+import Controller.*;
 import Dao.ChamberDao;
 import Model.Arranque;
 import Model.Chamber;
@@ -45,7 +42,7 @@ public class GUI {
                         //Llama al método correspondiente.
                         break;
                     case 2:
-                        //Llama al método correspondiente.
+                        opt2();
                         break;
                     case 3:
                         opt3();
@@ -69,21 +66,12 @@ public class GUI {
     }
 
     private static void opt2() {
-
-
         ChamberDao chamberDao = new ChamberDao(1,-30,-25,-26,false,true);
-        ThreadAdd add = new ThreadAdd(chamberDao);
-        ThreadLectureChamber lecture=new ThreadLectureChamber(chamberDao);
-        chamberDao.setSensor1(-27);
-        chamberDao.setSensor2(-27);
-        chamberDao.setPuerta(true);
         ThreadUpdateChamber update = new ThreadUpdateChamber(chamberDao);
+        ThreadDoor door=new ThreadDoor(chamberDao);
         System.out.println("Cambia de datos");
-        lecture=new ThreadLectureChamber(chamberDao);
-        add.start();
-        lecture.start();
         update.start();
-
+        door.start();
     }
 
     private static void opt3() {

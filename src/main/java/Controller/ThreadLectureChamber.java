@@ -14,7 +14,7 @@ public class ThreadLectureChamber extends Thread {
     @Override
     public void run() {
         super.run();
-
+        System.out.println("----------------------------------------------");
         System.out.println("Cámara="+chamberDao.getId());
         System.out.println("Máxima temperatura="+chamberDao.getMaxtemp());
         System.out.println("Sensor 1="+chamberDao.getSensor1());
