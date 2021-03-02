@@ -1,7 +1,7 @@
-package Controller;
+package Client.Controller;
 
-import Dao.ChamberDao;
-import Model.Arranque;
+import Client.Dao.ChamberDao;
+import Client.Model.Arranque;
 
 import java.util.concurrent.ThreadLocalRandom;
 

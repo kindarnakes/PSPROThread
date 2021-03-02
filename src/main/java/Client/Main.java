@@ -1,7 +1,9 @@
-import Controller.LogController;
-import Dao.ChamberDao;
-import GUI.GUI;
-import Model.Log;
+package Client;
+
+import Client.Controller.LogController;
+import Client.Dao.ChamberDao;
+import Client.GUI.GUI;
+import Client.Model.Log;
 
 import java.util.logging.LogManager;
 import java.util.logging.Logger;

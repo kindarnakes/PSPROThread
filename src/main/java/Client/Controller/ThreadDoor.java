@@ -1,20 +1,20 @@
-package Controller;
+package Client.Controller;
 
-import Dao.ChamberDao;
-import Model.Arranque;
+import Client.Dao.ChamberDao;
+import Client.Model.Arranque;
 
-public class ThreadAdd extends Thread{
+public class ThreadDoor extends Thread {
 
     private ChamberDao chamberDao;
 
-    public ThreadAdd(ChamberDao chamberDao) {
+    public ThreadDoor(ChamberDao chamberDao) {
         this.chamberDao = chamberDao;
     }
 
     @Override
     public void run() {
         super.run();
-        chamberDao.createChamber(chamberDao.getId());
+        chamberDao.setPuerta(true);
         Arranque arranque = new Arranque(chamberDao);
         arranque.start();
     }

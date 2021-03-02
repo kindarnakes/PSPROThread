@@ -1,4 +1,4 @@
-package Util;
+package Client.Util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

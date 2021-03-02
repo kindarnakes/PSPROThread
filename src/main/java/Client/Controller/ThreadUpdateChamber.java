@@ -1,9 +1,7 @@
-package Controller;
+package Client.Controller;
 
-import Dao.ChamberDao;
-import Model.Arranque;
-
-import java.util.concurrent.ThreadLocalRandom;
+import Client.Dao.ChamberDao;
+import Client.Model.Arranque;
 
 public class ThreadUpdateChamber extends Thread {
 

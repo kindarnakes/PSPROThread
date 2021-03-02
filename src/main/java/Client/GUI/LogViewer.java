@@ -1,6 +1,6 @@
-package GUI;
+package Client.GUI;
 
-import Model.Log;
+import Client.Model.Log;
 
 import java.util.Optional;
 

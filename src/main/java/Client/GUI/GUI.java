@@ -1,11 +1,8 @@
-package GUI;
+package Client.GUI;
 
-import Controller.*;
-import Dao.ChamberDao;
-import Model.Arranque;
-import Model.Chamber;
-import Model.Log;
-import Util.JPAUtil;
+import Client.Controller.*;
+import Client.Dao.ChamberDao;
+import Client.Model.Log;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

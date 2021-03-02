@@ -1,6 +1,4 @@
-package Model;
-
-import Controller.LogController;
+package Client.Model;
 
 import java.io.*;
 import java.time.LocalDate;

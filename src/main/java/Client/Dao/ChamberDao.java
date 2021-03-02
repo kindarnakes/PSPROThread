@@ -1,13 +1,12 @@
-package Dao;
+package Client.Dao;
 
-import Model.Chamber;
-import Util.JPAUtil;
+import Client.Model.Chamber;
+import Client.Util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ChamberDao extends Chamber {
     private EntityManager manager;

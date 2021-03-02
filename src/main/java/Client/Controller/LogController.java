@@ -1,8 +1,7 @@
-package Controller;
+package Client.Controller;
 
-import Dao.ChamberDao;
-import Model.Log;
-import Util.JPAUtil;
+import Client.Dao.ChamberDao;
+import Client.Model.Log;
 
 public class LogController extends Thread{
 
