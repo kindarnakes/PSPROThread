@@ -3,35 +3,42 @@ package Client;
 import Client.Controller.LogController;
 import Client.Dao.ChamberDao;
 import Client.GUI.GUI;
+import Client.Model.Chamber;
 import Client.Model.Log;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 
 public class Main {
 
-    public static void main(String[] args) {
-        //Evitamos que salga el log de Hibernate apagando los logs
-       LogManager.getLogManager().reset();
-        Logger globalLogger = Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
-        globalLogger.setLevel(java.util.logging.Level.OFF);
+    public static void main(String[] args) throws IOException {
 
-        //seteamos valores iniciales
+     Socket cliente = null;
+     BufferedReader entrada = null;
+     ObjectOutputStream salida = null;
+     String ipServidor = "localhost";
 
-        ChamberDao chamberDao = new ChamberDao(1, -30, -25, -26, false, true);
-        chamberDao.updateChamber();
-        chamberDao = new ChamberDao(2, -35, -40,-36, false, false);
-        chamberDao.updateChamber();
-        chamberDao = new ChamberDao(3, -15, 0, 1, true, false);
-        chamberDao.updateChamber();
+      try {
+       cliente = new Socket(ipServidor, 55000);
+       //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+       salida = new ObjectOutputStream(cliente.getOutputStream());
+      } catch (
+              UnknownHostException var9) {
+       System.err.println("El servidor no está levantado");
+      } catch (Exception var10) {
+       System.err.println("Error: " + var10);
+      }
+      Chamber c=new Chamber(1,2,1,2);
+      salida.writeObject(c);
 
 
-        Log log = Log.getINSTANCE();
-        LogController logController = new LogController(log);
-        logController.start();
-        GUI.startGUI();
-        logController.shutdown();
+     }
 
-    }
+
+
+
 }
