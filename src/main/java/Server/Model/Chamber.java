@@ -3,11 +3,12 @@ package Server.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Objects;
 
 
 @Entity(name = "camaras")
-public class Chamber {
+public class Chamber implements Serializable {
 
     @Id
     @Column(name = "codigoCamara")

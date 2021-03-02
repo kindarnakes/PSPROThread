@@ -11,7 +11,7 @@ public class Connection {
 
 
 
-        public void peticiones(ClientType peticion){
+       /* public void peticiones(ClientType peticion){
             try {
 
                 switch (peticion){
@@ -42,7 +42,7 @@ public class Connection {
                 System.err.println("Error: " + var8);
             }
 
-        }
+        }*/
     }
 
 
