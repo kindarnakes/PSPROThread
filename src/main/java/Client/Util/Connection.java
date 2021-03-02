@@ -1,5 +1,7 @@
 package Client.Util;
 
+import Client.Model.ClientType;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,8 +30,17 @@ public class Connection {
         }
     }
 
-        public void peticiones(){
+        public void peticiones(ClientType peticion){
             try {
+
+                switch (peticion){
+
+
+                    case Temperatura:break;
+                    case Puerta:break;
+                    case Administracion:break;
+                }
+
 
                 salida.close();
                 entrada.close();
