@@ -1,9 +1,8 @@
 package Client.Util;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import Client.Model.ClientType;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -13,11 +12,11 @@ public class Connection {
     Socket cliente = null;
     BufferedReader entrada = null;
     DataOutputStream salida = null;
-    String ipServidor = "127.0.0.1";
+    String ipServidor = "localhost";
 
     public void conectar() {
         try {
-            cliente = new Socket(ipServidor, 2019);
+            cliente = new Socket(ipServidor, 55000);
             entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
             salida = new DataOutputStream(cliente.getOutputStream());
         } catch (
@@ -28,8 +27,24 @@ public class Connection {
         }
     }
 
-        public void peticiones(){
+        public void peticiones(ClientType peticion, ObjectOutputStream objeto){
             try {
+
+                switch (peticion){
+
+
+                    case Temperatura:
+                        break;
+
+
+                    case Puerta:
+                        break;
+
+                    case Administracion:
+                        break;
+
+                }
+
 
                 salida.close();
                 entrada.close();
