@@ -1,23 +1,22 @@
 
-package Controller;
+package Client.Controller;
 
-import Dao.ChamberDao;
-import Model.Arranque;
+import Client.Dao.ChamberDao;
+import Client.Model.Arranque;
 
 
-
-public class ThreadUpdate2 extends Thread{
+public class ThreadUpdate1 extends Thread{
     
      private ChamberDao chamberDao;
 
-    public ThreadUpdate2(ChamberDao chamberDao) {
+    public ThreadUpdate1(ChamberDao chamberDao) {
         this.chamberDao = chamberDao;
     }
 
     @Override
     public void run() {
         super.run();
-        chamberDao.setSensor2(-36);
+        chamberDao.setSensor1(-34);
         chamberDao.updateChamber();
         Arranque arranque = new Arranque(chamberDao);
         arranque.start();
