@@ -41,5 +41,7 @@ public class JPAUtil {
             notifyAll();
         }
 
+    public static class Connection {
     }
+}
 
