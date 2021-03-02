@@ -1,4 +1,4 @@
-package Client.Util;
+package Project.Util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,7 +41,5 @@ public class JPAUtil {
             notifyAll();
         }
 
-    public static class Connection {
     }
-}
 

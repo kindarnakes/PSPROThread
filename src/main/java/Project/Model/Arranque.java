@@ -1,6 +1,6 @@
-package Client.Model;
+package Project.Model;
 
-import Client.Dao.ChamberDao;
+import Project.DAO.ChamberDao;
 
 public class Arranque extends Thread{
 

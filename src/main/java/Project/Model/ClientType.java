@@ -1,4 +1,4 @@
-package Server.Model;
+package Project.Model;
 
 public enum ClientType {
     Temperatura,

@@ -1,4 +1,4 @@
-package Client.Model;
+package Project.Model;
 
 import java.io.*;
 import java.time.LocalDate;

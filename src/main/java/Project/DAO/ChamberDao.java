@@ -1,7 +1,7 @@
-package Client.Dao;
+package Project.DAO;
 
-import Client.Model.Chamber;
-import Client.Util.JPAUtil;
+import Project.Model.Chamber;
+import Project.Util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;

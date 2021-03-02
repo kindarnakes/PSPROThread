@@ -1,7 +1,7 @@
-package Server.Controller;
+package Project.Controller;
 
-import Client.Dao.ChamberDao;
-import Client.Model.ClientType;
+import Project.DAO.ChamberDao;
+import Project.Model.Chamber;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,7 +24,10 @@ public class MainController extends Thread{
     public void run() {
         super.run();
         try {
-            Object o = in.readObject();
+            Chamber o = (Chamber) in.readObject();
+            System.out.println(o);
+            /*Object o = in.readObject();
+            System.out.println(o);
             if(o instanceof ClientType){
                 switch ((ClientType) o){
                     case Temperatura:
@@ -37,7 +40,7 @@ public class MainController extends Thread{
                         administracion();
                         break;
                 }
-            }
+            }*/
             in.close();
             out.close();
             connection.close();

@@ -1,4 +1,4 @@
-package Client.Model;
+package Project.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @Entity(name = "camaras")
 public class Chamber implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "codigoCamara")
