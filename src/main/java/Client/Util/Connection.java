@@ -36,9 +36,16 @@ public class Connection {
                 switch (peticion){
 
 
-                    case Temperatura:break;
-                    case Puerta:break;
-                    case Administracion:break;
+                    case Temperatura:
+                        break;
+
+
+                    case Puerta:
+                        break;
+
+                    case Administracion:
+                        break;
+
                 }
 
 
