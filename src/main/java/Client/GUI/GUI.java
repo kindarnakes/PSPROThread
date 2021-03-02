@@ -2,6 +2,7 @@ package Client.GUI;
 
 import Client.Controller.*;
 import Client.Dao.ChamberDao;
+import Client.Model.Chamber;
 import Client.Model.Log;
 
 import java.util.InputMismatchException;
@@ -20,15 +21,9 @@ public class GUI {
 
             System.out.println();
             System.out.println("---------------------------MENU-----------------------------");
-            System.out.println("1. Simular la lectura de dos sensores de la misma cámara de"
-                    + "manera simultánea.");
-            System.out.println("2. Simular la lectura de un sensor con valor superior a la temperatura "
-                    + "máxima y una apertura de puerta simultánea.");
-
-            System.out.println("3. Ingreso de una nueva cámara frigorífica y lectura de los"
-                    + "sensores de temperatura de las cámaras restantes. ");
-            System.out.println("4. Resumen del estado de las cámaras.");
-            System.out.println("5. Salir");
+            System.out.println("1. : Sensor de temperatura");
+            System.out.println("2. : : Sensor de puerta abierta");
+            System.out.println("3. : Sensor de temperatura");
 
             try {
                 System.out.print("Indica una opción a través del dígito que se muestra:");
@@ -44,17 +39,12 @@ public class GUI {
                     case 3:
                         opt3();
                         break;
-                    case 4:
-                        opt4();
-                        break;
-                    case 5:
-                        salir = true;
-                        break;
+
                     default:
                         System.out.println("Indique un dígito válido entre 1-5");
                 }
 
-            } catch (InputMismatchException | InterruptedException e) {
+            } catch (InputMismatchException) {
                 System.out.println("¡Cuidado! Solo puedes insertar números.");
                 sc.next();
             }
@@ -63,13 +53,21 @@ public class GUI {
     }
     
     
-    private static void opt1() {       
-        ChamberDao chamberDao = new ChamberDao();
-        chamberDao = new ChamberDao(chamberDao.findById(2));
+    private static void opt1() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce la Id del Chamber");
+        int id_chamber=sc.nextInt();
+        System.out.println("¿Qué sensonr es?");
+        System.out.println("------------------");
+        System.out.println("1.Sensor 1");
+        System.out.println("2.Sensor 2");
+        int n_sensor=sc.nextInt();
+        Chamber
+       /* chamberDao = new ChamberDao(chamberDao.findById(2));
         ThreadUpdate1 s1 = new ThreadUpdate1(chamberDao);
-        ThreadUpdate2 s2 = new ThreadUpdate2(chamberDao);
-        s1.start();
-        s2.start();
+        ThreadUpdate2 s2 = new ThreadUpdate2(chamberDao);*/
+      /*  s1.start();
+        s2.start();*/
     }
 
     private static void opt2() {
@@ -93,12 +91,6 @@ public class GUI {
         up2.start();
     }
 
-    private static void opt4() throws InterruptedException {
-        Log log = Log.getINSTANCE();
-        LogViewer logViewer = new LogViewer(log);
-        logViewer.start();
-        logViewer.join();
-    }
 }
 
 
