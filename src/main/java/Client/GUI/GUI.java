@@ -36,7 +36,7 @@ public class GUI {
 
                 switch (opcion) {
                     case 1:
-                        //Llama al método correspondiente.
+                        opt1();
                         break;
                     case 2:
                         opt2();
@@ -60,6 +60,16 @@ public class GUI {
             }
         }
 
+    }
+    
+    
+    private static void opt1() {       
+        ChamberDao chamberDao = new ChamberDao();
+        chamberDao = new ChamberDao(chamberDao.findById(2));
+        ThreadUpdate1 s1 = new ThreadUpdate1(chamberDao);
+        ThreadUpdate2 s2 = new ThreadUpdate2(chamberDao);
+        s1.start();
+        s2.start();
     }
 
     private static void opt2() {
