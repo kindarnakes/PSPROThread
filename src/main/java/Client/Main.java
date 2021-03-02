@@ -22,6 +22,8 @@ public class Main {
      ObjectOutputStream salida = null;
      String ipServidor = "localhost";
 
+     GUI.startGUI();
+
       try {
        cliente = new Socket(ipServidor, 55000);
        //entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
@@ -32,8 +34,8 @@ public class Main {
       } catch (Exception var10) {
        System.err.println("Error: " + var10);
       }
-      Chamber c=new Chamber(1,2,1,2);
-      salida.writeObject(c);
+
+      salida.writeObject(2);
 
 
      }
