@@ -66,7 +66,7 @@ public class MainController extends Thread {
                     chamberDao.setSensor2(in.readInt()); //recibe valor si sensor 2
                 }
                 updated = chamberDao.updateChamber();
-                out.writeObject(updated); //envia booleano para saber si actualizo
+                out.writeBoolean(updated); //envia booleano para saber si actualizo
                 next = in.readUTF(); //recibe texto y o n
                 if (updated) {
                     new Arranque(chamberDao).start();
