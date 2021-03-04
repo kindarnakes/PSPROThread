@@ -89,7 +89,7 @@ public class ChamberDao extends Chamber {
                 }
             }
             notifyAll();
-            return chamber;
+            return chamber!=null?chamber:new Chamber();
         }
 
         public synchronized List<Chamber> getAllChamber () {

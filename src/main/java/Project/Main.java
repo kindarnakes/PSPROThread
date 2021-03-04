@@ -21,6 +21,7 @@ public class Main {
         MainController thread = null;
 
 
+
         try{
             server = new ServerSocket(55000);
 
@@ -37,6 +38,5 @@ public class Main {
         }catch (IOException e){
             e.printStackTrace();
         }
-
     }
 }

@@ -1,12 +1,15 @@
 package Project.Controller;
 
 import Project.DAO.ChamberDao;
-import Project.Model.Chamber;
+import Project.Model.Arranque;
+import Project.Model.ClientType;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class MainController extends Thread{
+public class MainController extends Thread {
     Socket connection;
     ObjectInputStream in;
     ObjectOutputStream out;
@@ -24,12 +27,10 @@ public class MainController extends Thread{
     public void run() {
         super.run();
         try {
-            Chamber o = (Chamber) in.readObject();
+            Object o = in.readObject();
             System.out.println(o);
-            /*Object o = in.readObject();
-            System.out.println(o);
-            if(o instanceof ClientType){
-                switch ((ClientType) o){
+            if (o instanceof ClientType) {
+                switch ((ClientType) o) {
                     case Temperatura:
                         temperatura();
                         break;
@@ -40,7 +41,7 @@ public class MainController extends Thread{
                         administracion();
                         break;
                 }
-            }*/
+            }
             in.close();
             out.close();
             connection.close();
@@ -56,26 +57,44 @@ public class MainController extends Thread{
         Integer id = in.readInt();//recibe id
         Integer sensor = in.readInt(); //recibe sensor 1 o 2
         chamberDao = new ChamberDao(chamberDao.findById(id));
-        do{
-            Boolean updated = false;
-            if(sensor == 1){
-                chamberDao.setSensor1(in.readInt()); //recibe valor si sensor 1
+        if (chamberDao.getId() == id) {
+            do {
+                Boolean updated = false;
+                if (sensor == 1) {
+                    chamberDao.setSensor1(in.readInt()); //recibe valor si sensor 1
+                } else if (sensor == 2) {
+                    chamberDao.setSensor2(in.readInt()); //recibe valor si sensor 2
+                }
                 updated = chamberDao.updateChamber();
-            }else if(sensor == 2){
-                chamberDao.setSensor2(in.readInt()); //recibe valor si sensor 2
-                updated = chamberDao.updateChamber();
-            }
-            out.writeObject(updated); //envia booleano para saber si actualizo
-            next = in.readUTF(); //recibe texto y o n
-        }while(next.matches("y")); //continua bucle si recibio y
+                out.writeObject(updated); //envia booleano para saber si actualizo
+                next = in.readUTF(); //recibe texto y o n
+                if (updated) {
+                    new Arranque(chamberDao).start();
+                }
+            } while (next.matches("y")); //continua bucle si recibio y}
+        }
     }
 
 
-    public void puerta(){
-
+    public void puerta() throws IOException {
+        String next;
+        Integer id = in.readInt();//recibe id
+        chamberDao = new ChamberDao(chamberDao.findById(id));
+        if (chamberDao.getId() == id) {
+            do {
+                Boolean updated = false;
+                chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
+                updated = chamberDao.updateChamber();
+                out.writeBoolean(updated); //envia booleano para saber si actualizo
+                next = in.readUTF(); //recibe texto y o n
+                if (updated) {
+                    new Arranque(chamberDao).start();
+                }
+            } while (next.matches("y")); //continua bucle si recibio y}
+        }
     }
 
-    public void administracion(){
+    public void administracion() {
 
     }
 }
