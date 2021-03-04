@@ -53,12 +53,10 @@ public class MainController extends Thread {
     }
 
     public void temperatura() throws IOException {
-        String next;
         Integer id = in.readInt();//recibe id
         Integer sensor = in.readInt(); //recibe sensor 1 o 2
         chamberDao = new ChamberDao(chamberDao.findById(id));
         if (chamberDao.getId() == id) {
-            do {
                 Boolean updated = false;
                 if (sensor == 1) {
                     chamberDao.setSensor1(in.readInt()); //recibe valor si sensor 1
@@ -67,30 +65,24 @@ public class MainController extends Thread {
                 }
                 updated = chamberDao.updateChamber();
                 out.writeBoolean(updated); //envia booleano para saber si actualizo
-                next = in.readUTF(); //recibe texto y o n
                 if (updated) {
                     new Arranque(chamberDao).start();
-                }
-            } while (next.matches("y")); //continua bucle si recibio y}
+                }//continua bucle si recibio y}
         }
     }
 
 
     public void puerta() throws IOException {
-        String next;
         Integer id = in.readInt();//recibe id
         chamberDao = new ChamberDao(chamberDao.findById(id));
         if (chamberDao.getId() == id) {
-            do {
                 Boolean updated = false;
                 chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
                 updated = chamberDao.updateChamber();
                 out.writeBoolean(updated); //envia booleano para saber si actualizo
-                next = in.readUTF(); //recibe texto y o n
                 if (updated) {
                     new Arranque(chamberDao).start();
                 }
-            } while (next.matches("y")); //continua bucle si recibio y}
         }
     }
 
