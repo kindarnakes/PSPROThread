@@ -1,6 +1,7 @@
 package Project;
 
 import Project.Controller.MainController;
+import Project.DAO.ChamberDao;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,6 +16,14 @@ public class Main {
         LogManager.getLogManager().reset();
         Logger globalLogger = Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
         globalLogger.setLevel(java.util.logging.Level.OFF);
+
+
+        ChamberDao chamberDao = new ChamberDao(1, -30, -25, -26, false, true);
+        chamberDao.updateChamber();
+        chamberDao = new ChamberDao(2, -35, -40,-36, false, false);
+        chamberDao.updateChamber();
+        chamberDao = new ChamberDao(3, -15, 0, 1, true, false);
+        chamberDao.updateChamber();
 
         ServerSocket server = null;
         Socket socket = null;

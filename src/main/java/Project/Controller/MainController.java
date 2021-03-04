@@ -2,6 +2,7 @@ package Project.Controller;
 
 import Project.DAO.ChamberDao;
 import Project.Model.Arranque;
+import Project.Model.Chamber;
 import Project.Model.ClientType;
 
 import java.io.IOException;
@@ -55,38 +56,72 @@ public class MainController extends Thread {
     public void temperatura() throws IOException {
         Integer id = in.readInt();//recibe id
         Integer sensor = in.readInt(); //recibe sensor 1 o 2
+        Integer value = in.readInt(); //recibe valor
         chamberDao = new ChamberDao(chamberDao.findById(id));
+        boolean updated = false;
         if (chamberDao.getId() == id) {
-                Boolean updated = false;
                 if (sensor == 1) {
-                    chamberDao.setSensor1(in.readInt()); //recibe valor si sensor 1
+                    chamberDao.setSensor1(value); //recibe valor si sensor 1
                 } else if (sensor == 2) {
-                    chamberDao.setSensor2(in.readInt()); //recibe valor si sensor 2
+                    chamberDao.setSensor2(value); //recibe valor si sensor 2
                 }
                 updated = chamberDao.updateChamber();
-                out.writeBoolean(updated); //envia booleano para saber si actualizo
                 if (updated) {
                     new Arranque(chamberDao).start();
-                }//continua bucle si recibio y}
+                }
         }
+        System.out.println(updated);
+        out.writeBoolean(updated); //envia booleano para saber si actualizo
+        out.flush();
     }
 
 
     public void puerta() throws IOException {
         Integer id = in.readInt();//recibe id
         chamberDao = new ChamberDao(chamberDao.findById(id));
+
+        System.out.println(chamberDao.getId());
         if (chamberDao.getId() == id) {
                 Boolean updated = false;
                 chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
                 updated = chamberDao.updateChamber();
                 out.writeBoolean(updated); //envia booleano para saber si actualizo
+                out.flush();
                 if (updated) {
                     new Arranque(chamberDao).start();
                 }
         }
     }
 
-    public void administracion() {
+    public void administracion() throws IOException, ClassNotFoundException {
+        Integer opt = in.readInt(); //recibimos opcion
+        ChamberDao chamberDao;
+        Chamber c;
+        boolean done = false;
+        switch (opt){
+            case 1:
+                out.writeBoolean(true); //aceptamos opcion
+                Integer id = in.readInt();
+                chamberDao = new ChamberDao();
+                c = chamberDao.findById(id);
+                out.writeObject(c); //enviamos chamber
+                out.flush();
+                break;
+            case 2:
+                out.writeBoolean(true); //aceptamos opcion
+                Object o = in.readObject(); //recibimos chamber
+                if(o instanceof Chamber){
+                    c = (Chamber) o;
+                    chamberDao = new ChamberDao(c);
+                    done = chamberDao.updateChamber();
+                    out.writeBoolean(done); //decimos si esta o no creada
+                    out.flush();
+                    new Arranque(chamberDao).start();
+                 }
+                break;
+            default:
+                out.writeBoolean(false); //negamos opcion
+        }
 
     }
 }
