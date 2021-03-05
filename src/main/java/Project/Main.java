@@ -28,11 +28,13 @@ public class Main {
         ServerSocket server = null;
         Socket socket = null;
         MainController thread = null;
+        final int port = 55000;
 
 
 
         try{
-            server = new ServerSocket(55000);
+            server = new ServerSocket(port);
+            System.out.println("Esperando conexiones en puerto: " + port);
 
 
             while(true) {
