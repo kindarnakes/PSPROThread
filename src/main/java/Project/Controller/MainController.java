@@ -58,7 +58,7 @@ public class MainController extends Thread {
         Integer sensor = in.readInt(); //recibe sensor 1 o 2
         Integer value = in.readInt(); //recibe valor
         chamberDao = new ChamberDao(chamberDao.findById(id));
-        System.out.println("id: " + chamberDao.getId() + " por: " + connection.getRemoteSocketAddress()));
+        System.out.println("id: " + chamberDao.getId() + " por: " + connection.getRemoteSocketAddress());
         boolean updated = false;
         if (chamberDao.getId() == id) {
                 if (sensor == 1) {
