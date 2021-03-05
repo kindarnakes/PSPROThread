@@ -126,6 +126,7 @@ public class MainController extends Thread {
                 break;
             default:
                 out.writeBoolean(false); //negamos opcion
+                out.flush();
         }
 
     }
