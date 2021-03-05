@@ -79,18 +79,18 @@ public class MainController extends Thread {
     public void puerta() throws IOException {
         Integer id = in.readInt();//recibe id
         chamberDao = new ChamberDao(chamberDao.findById(id));
+        boolean updated = false;
 
         System.out.println(chamberDao.getId());
         if (chamberDao.getId() == id) {
-                Boolean updated = false;
                 chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
                 updated = chamberDao.updateChamber();
-                out.writeBoolean(updated); //envia booleano para saber si actualizo
                 out.flush();
                 if (updated) {
                     new Arranque(chamberDao).start();
                 }
         }
+        out.writeBoolean(updated); //envia booleano para saber si actualizo
     }
 
     public void administracion() throws IOException, ClassNotFoundException {
