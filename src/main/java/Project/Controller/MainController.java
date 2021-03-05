@@ -103,14 +103,17 @@ public class MainController extends Thread {
         switch (opt){
             case 1:
                 out.writeBoolean(true); //aceptamos opcion
+                out.flush();
                 Integer id = in.readInt();
                 chamberDao = new ChamberDao();
                 c = chamberDao.findById(id);
+                System.out.println(c);
                 out.writeObject(c); //enviamos chamber
                 out.flush();
                 break;
             case 2:
                 out.writeBoolean(true); //aceptamos opcion
+                out.flush();
                 Object o = in.readObject(); //recibimos chamber
                 if(o instanceof Chamber){
                     c = (Chamber) o;
