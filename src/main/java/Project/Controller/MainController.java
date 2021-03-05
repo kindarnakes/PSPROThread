@@ -85,12 +85,12 @@ public class MainController extends Thread {
         if (chamberDao.getId() == id) {
                 chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
                 updated = chamberDao.updateChamber();
-                out.flush();
                 if (updated) {
                     new Arranque(chamberDao).start();
                 }
         }
         out.writeBoolean(updated); //envia booleano para saber si actualizo
+        out.flush();
     }
 
     public void administracion() throws IOException, ClassNotFoundException {
