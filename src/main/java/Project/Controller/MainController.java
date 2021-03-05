@@ -29,7 +29,7 @@ public class MainController extends Thread {
         super.run();
         try {
             Object o = in.readObject();
-            System.out.println(o);
+            System.out.println("Opcion elegida: " + o + " por: " + connection.getRemoteSocketAddress());
             if (o instanceof ClientType) {
                 switch ((ClientType) o) {
                     case Temperatura:
@@ -58,7 +58,7 @@ public class MainController extends Thread {
         Integer sensor = in.readInt(); //recibe sensor 1 o 2
         Integer value = in.readInt(); //recibe valor
         chamberDao = new ChamberDao(chamberDao.findById(id));
-        System.out.println(chamberDao.getId());
+        System.out.println("id: " + chamberDao.getId() + " por: " + connection.getRemoteSocketAddress()));
         boolean updated = false;
         if (chamberDao.getId() == id) {
                 if (sensor == 1) {
@@ -71,7 +71,7 @@ public class MainController extends Thread {
                     new Arranque(chamberDao).start();
                 }
         }
-        System.out.println(updated);
+        System.out.println("Respondemos: " + updated + " a: " + connection.getRemoteSocketAddress());
         out.writeBoolean(updated); //envia booleano para saber si actualizo
         out.flush();
     }
@@ -82,7 +82,7 @@ public class MainController extends Thread {
         chamberDao = new ChamberDao(chamberDao.findById(id));
         boolean updated = false;
 
-        System.out.println(chamberDao.getId());
+        System.out.println("id: " + chamberDao.getId() + " por: " + connection.getRemoteSocketAddress());
         if (chamberDao.getId() == id) {
                 chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
                 updated = chamberDao.updateChamber();
@@ -90,7 +90,7 @@ public class MainController extends Thread {
                     new Arranque(chamberDao).start();
                 }
         }
-        System.out.println(updated);
+        System.out.println("Respondemos: " + updated + " a: " + connection.getRemoteSocketAddress());
         out.writeBoolean(updated); //envia booleano para saber si actualizo
         out.flush();
     }
@@ -107,7 +107,7 @@ public class MainController extends Thread {
                 Integer id = in.readInt();
                 chamberDao = new ChamberDao();
                 c = chamberDao.findById(id);
-                System.out.println(c);
+                System.out.println(c + " pedido por: " + connection.getRemoteSocketAddress());
                 out.writeObject(c); //enviamos chamber
                 out.flush();
                 break;
@@ -121,6 +121,7 @@ public class MainController extends Thread {
                     done = chamberDao.updateChamber();
                     out.writeBoolean(done); //decimos si esta o no creada
                     out.flush();
+                    System.out.println(c + "creado por: " + connection.getRemoteSocketAddress());
                     new Arranque(chamberDao).start();
                  }
                 break;
