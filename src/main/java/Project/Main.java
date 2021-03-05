@@ -39,6 +39,7 @@ public class Main {
                 socket = server.accept();
                 thread = new MainController(socket);
                 thread.run();
+                System.out.println("Se ha conectado un cliente: " + socket.getRemoteSocketAddress());
 
             }
 
