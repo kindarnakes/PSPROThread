@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class MainController extends Thread {
     Socket connection;
@@ -43,10 +44,15 @@ public class MainController extends Thread {
                         break;
                 }
             }
-            in.close();
-            out.close();
+
+            if(in.available()>0) {
+                in.close();
+                out.close();
+            }
             connection.close();
-        } catch (IOException e) {
+        }catch (SocketException e){
+            e.printStackTrace();
+        }catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -120,8 +126,7 @@ public class MainController extends Thread {
                     chamberDao = new ChamberDao(c);
                     done = chamberDao.updateChamber();
                     out.writeBoolean(done); //decimos si esta o no creada
-                    out.flush();
-                    System.out.println(c + "creado por: " + connection.getRemoteSocketAddress());
+                    System.out.println(c + " creado por: " + connection.getRemoteSocketAddress());
                     new Arranque(chamberDao).start();
                  }
                 break;
