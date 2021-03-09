@@ -87,10 +87,11 @@ public class MainController extends Thread {
         Integer id = in.readInt();//recibe id
         chamberDao = new ChamberDao(chamberDao.findById(id));
         boolean updated = false;
+        boolean puerta = in.readBoolean();
 
         System.out.println("id: " + chamberDao.getId() + " por: " + connection.getRemoteSocketAddress());
         if (chamberDao.getId() == id) {
-                chamberDao.setPuerta(in.readBoolean()); //recibe valor puerta
+                chamberDao.setPuerta(puerta); //recibe valor puerta
                 updated = chamberDao.updateChamber();
                 if (updated) {
                     new Arranque(chamberDao).start();
