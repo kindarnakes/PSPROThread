@@ -29,7 +29,7 @@ public class MainController extends Thread {
     public void run() {
         super.run();
         try {
-            Object o = in.readObject();
+            Object o = in.readObject(); //recibimos el ClientType
             System.out.println("Opcion elegida: " + o + " por: " + connection.getRemoteSocketAddress());
             if (o instanceof ClientType) {
                 switch ((ClientType) o) {
